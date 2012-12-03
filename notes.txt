@@ -1,0 +1,38 @@
+add box before
+	I think that a menu or a mouse-pointer–visual-queue with a positional switch would be a good possible solution.
+
+floating menu
+copy-paste blocks
+
+command shortcuts
+	Export		ctrl-P
+	Save		ctrl-S	
+	Load  		ctrl-Q
+	Undo 		ctrl-Z
+	Redo		ctrl-X
+	Copy 		ctrl-C
+	Paste 		ctrl-V
+
+server-based
+draggable boxes
+
+
+Load locked my computer undo worked. This either has been fixed or is only occasional. 
+
+To start, as the chart extends downward the tool-bar becomes in accessible
+
+made it so a single-click made it possible to select and edit text; 
+
+then where it makes sense for a double click to open a menu to select a new item to insert. 
+
+
+It also becomes cramped with nested statements. I think a possible solution may be to change the width of the top of the chart to an 11” view; then export as several images that have been flipped and cut into “word document sized pieces” ,with page numbers (so that they can be pasted into a document page by page);  Maybe then  an option to switch between the two modes.
+
+
+
+
+BUGS
+
+I noticed sometimes with the load feature it will compress entirely to one line outside of the frame (google chrome + fire Fox) but this seems to be only occasional. 
+
+I also noticed the new buttons do not always show up in Firefox sometimes only two empty frames show in Firefox (load and undo). 
