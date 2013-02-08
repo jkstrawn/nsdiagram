@@ -365,11 +365,10 @@ function Block(app, container, makeBefore) {
 	if(!container) return; //fix for inheritance issues
     Box.call(this, app, container);
 
-
 	this.id = (container.nextY) ? container.blockList.nextId() : container.container.blockList.nextId();
 	this.textList = new Array();
 	this.x = this.container.x;		
-	this.width = (this.app.BUTTON_DEFAULT_WIDTH < container.width) ? this.app.BUTTON_DEFAULT_WIDTH : container.width;
+	this.width = container.width;
 	this.height = heightToMove = app.buttonHeight;
 	this.textWidth = 0;
 	this.numOfLines = 1;
@@ -1025,126 +1024,13 @@ CaseBlock.prototype.convertToCommand = function() {
 	}
 }
 
-//****************************************************************************************************************************************************
-//********************************************************************** BUTTON **********************************************************************
-//****************************************************************************************************************************************************
-function Button(app, x, y, w, h, image) {
-    Box.call(this, app, 0);
-
-    this.x = x;
-    this.y = y;
-    this.originalY = y;
-    this.width = w;
-    this.height = h;
-    this.hover = false;
-    this.id = this.app.buttonList.nextId();
-    this.image = 'img/button'+this.id+'.png';
-    this.hoverLabel = null;
-    this.name = "temp";
-}
-
-Button.prototype = new Box();
-Button.prototype.constructor = Button;
-
-Button.prototype.update = function() {
-	this.y = this.originalY;
-	if(this.hover) {
-		if(!this.hoverLabel)
-			this.hoverLabel = this.createLabel(this.id, this.name, this.app.mouse.x, this.app.mouse.y-20);
-		else
-			this.setLabelXandY(this.hoverLabel, this.app.mouse.x, this.app.mouse.y-20);
-	} else if(this.hoverLabel) {
-		document.getElementById('canvasContainer').removeChild(this.hoverLabel);
-		this.hoverLabel = null;
-	}
-}
-
-Button.prototype.createLabel = function(id, labelText, x, y) {
-	var newLabelDiv = 
-		"<div class='texts' id='label"+id+"' style='position:absolute; z-index:30; background: rgba(255, 255, 255, 0.7);'>" +
-		"<p>"+labelText+"</p>" +
-		"</div>";
-	$("#canvasContainer").append(newLabelDiv);
-
-	var canvas = document.getElementById('mainCanvas');
-	var label = document.getElementById('label'+id);
-	label.style.left = (canvas.offsetLeft+x)+"px";
-	label.style.top =  (canvas.offsetTop+y)+"px";
-	return label;
-}
-
-Button.prototype.setLabelXandY = function(label, x, y) {
-	var canvas = document.getElementById('mainCanvas');
-	label.style.left = (canvas.offsetLeft+x)+"px";
-	label.style.top =  (canvas.offsetTop+y)+"px";
-}
-
-Button.prototype.init = function() {
-
-}
-
-Button.prototype.draw = function(ctx, drawText) {
-	var index = 0;
-	if(this.id > 0)
-		index += 2;
-	if(this.id > this.app.numOfButtons - 2)
-		index += 2;
-	if(this.hover)
-		index++;
-
-	var imageURL = 'img/image' + index + '.png';
-
-	ctx.drawImage(ASSET_MANAGER.getAsset(imageURL), this.x, this.y);
-	ctx.drawImage(ASSET_MANAGER.getAsset(this.image), this.x, this.y);
-}
 //********************************************************** BUTTON-LIST *********************************************************************
 function ButtonList(app) {
 	this.app = app;
 	this.list = new Array();
 }
 
-ButtonList.prototype.addButton = function(button) {
-	console.log("adding button to list with id: " + this.list.length);
-	this.list.push(button);
-}
-
-ButtonList.prototype.draw = function(ctx, drawText) {
-	for(var i = 0; i < this.list.length; i++) {
-		this.list[i].draw(ctx, drawText);
-	}
-}
-
-ButtonList.prototype.update = function() {
-	for(var i = 0; i < this.list.length; i++) {
-		this.list[i].update();
-	}
-}
-
-ButtonList.prototype.checkHover = function(x, y) {
-	for(var i = 0; i < this.list.length; i++) {
-		this.list[i].hover = this.list[i].isInside(x, y);
-	}
-}
-
-ButtonList.prototype.nextId = function() {
-	return this.list.length;
-}
-
-ButtonList.prototype.isHover = function() {
-	for(var i = 0; i < this.list.length; i++) {
-		if(this.list[i].hover)
-			return true;
-	}
-	return false;
-}
-
-ButtonList.prototype.click = function() {
-	var index = 0;
-	for(var i = 0; i < this.list.length; i++) {
-		if(this.list[i].hover) {
-			index = i;
-		}
-	}
+ButtonList.prototype.click = function(index) {
 	var selected = this.app.base.getSelected();
 
 	//cannot process command 1-5 without box selected, cannot delete when container is selected
@@ -1155,13 +1041,7 @@ ButtonList.prototype.click = function() {
 	this.app.executeCommand(selected, index);
 }
 
-ButtonList.prototype.rClick = function() {
-	var index = 0;
-	for(var i = 0; i < 5; i++) {
-		if(this.list[i].hover) {
-			index = i;
-		}
-	}
+ButtonList.prototype.rClick = function(index) {
 	var selected = this.app.base.getSelected();
 
 	//cannot process command 1-5 without box selected
@@ -1169,12 +1049,6 @@ ButtonList.prototype.rClick = function() {
 
 	index += 50;
 	this.app.executeCommand(selected, index);
-}
-
-ButtonList.prototype.moveByY = function(height) {
-	for(var i = 0; i < this.list.length; i++) {
-		this.list[i].y = this.list[i].originalY + height;
-	}
 }
 //*********************************************************** ITEM-LIST ******************************************************************
 function ItemList(app) {
@@ -1422,9 +1296,8 @@ function Engine() {
 	this.BOX_COLOR_YELLOW = "rgb(220, 230, 240)";
 	this.CANVAS_CLEAR_COLOR = '#344157';
 
-	this.numOfButtons = 10;
-	this.BUTTON_DEFAULT_WIDTH = 800;
 	this.buttonList = new ButtonList(this);
+	this.buttonClick = 0;
 	this.buttonHeight = 17;
 
 	//variables that change
@@ -1436,6 +1309,7 @@ function Engine() {
 	this.commandList = [];
 	this.redoList = [];
 	this.commandsToExecute = [];
+	this.size = 0;
 
 	//save stuff
 	this.boxListTemp = [];
@@ -1458,20 +1332,6 @@ Engine.prototype.init = function() {
     this.startInput();
 
     this.base = new Container(this, 0, 20, this.baseY, this.baseW, this.baseH, 0);
-    //create the buttons
-    for(var i = 0; i < this.numOfButtons; i++) {
-    	this.buttonList.addButton(new Button(this, 20 + 38*i, 20, 38, 33));
-    }
-    this.buttonList.list[0].name = "Block";
-    this.buttonList.list[1].name = "If";
-    this.buttonList.list[2].name = "Function";
-    this.buttonList.list[3].name = "While";
-    this.buttonList.list[4].name = "Case";
-    this.buttonList.list[5].name = "Delete";
-    this.buttonList.list[6].name = "Export to Image";
-    this.buttonList.list[7].name = "Save";
-    this.buttonList.list[8].name = "Load";
-    this.buttonList.list[9].name = "Undo";
 }
 
 
@@ -1552,7 +1412,9 @@ Engine.prototype.addBox = function(box, parentBox, builtBefore) {
 
 Engine.prototype.updateSizeToPrint = function() {
 	var lastBox = this.base.blockList.list[this.base.blockList.list.length-1];
-	this.sizeToPrint = lastBox.y + lastBox.height - this.baseY + 1;
+	if(lastBox) {
+		this.sizeToPrint = lastBox.y + lastBox.height - this.baseY + 1;		
+	}
 }
 
 Engine.prototype.removeBoxFromBoxList = function(box) {
@@ -1763,42 +1625,29 @@ Engine.prototype.nextText = function() {
 Engine.prototype.updateMenuPosition = function(scroll) {
 	console.log("scroll");
 	if(scroll > 85 && scroll < 10+canvas.height) {
-	/*
 	//if the window is scrolled past the menu bar
 		this.scrollAmount = scroll-85;
-		if(menuCanvas.style.top != scroll+'px') {
-			menuCanvas.style.top = scroll+'px';
-			var selector = document.getElementById('selectSize');
-		}
-	*/
-		this.scrollAmount = scroll-85;
-		$('#menuCanvas').addClass('stick');
+		$('#menuCanvasDiv').addClass('stick');
 	} else {
-		$('#menuCanvas').removeClass('stick');
+	//otherwise its not scrolled past the menu bar, so put it at the top
+		$('#menuCanvasDiv').removeClass('stick');
 		this.scrollAmount = 0;
-	}
-	//otherwise its not scrolled past the menu bar, so set the top
-		//menuCanvas.style.top = '84px';
-
-/*
-
-
-*/		
+	}		
 }
 
 Engine.prototype.changeSelection = function(selected) {
-	console.log("select: " + selected);
-}
-
-Engine.prototype.updateSelector = function() {
-	var selector = document.getElementById('selectSize');
-	var top = $('#menuCanvas').offset().top;
-	var left =  $('#menuCanvas').offset().left;
-	if(selector.style.top != (top+20)+'px') {
-		selector.style.top = (top+20)+'px';
-	}
-	if(selector.style.left != (left+500)+'px') {
-		selector.style.left = (left+500)+'px';
+	if(selected != this.size) {
+		this.size = selected;
+		if(selected == 0) {
+		//8 inch size
+			menuCanvas.width = 690;
+			mainCanvas.width = 690;
+		} else {
+		//11 inch size
+			menuCanvas.width = 1000;
+			mainCanvas.width = 1000;
+		}
+		this.base.width = mainCanvas.width-40;
 	}
 }
 
@@ -1825,25 +1674,26 @@ Engine.prototype.saveCanvasImage = function() {
 
 Engine.prototype.update = function() {
 	this.base.update();
-	this.buttonList.update();
-	this.updateSelector();
+
+	var containerDiv = document.getElementById('canvasContainer');
+	var menuCanvas = document.getElementById('menuCanvasDiv')
+	var leftPos = containerDiv.offsetLeft + 'px';
+
+	if(containerDiv && menuCanvas && menuCanvas.style.left != leftPos) {
+		menuCanvas.style.left = leftPos;
+	}
 
 	//try{
 		if(this.click) {
-			if(this.buttonList.isHover()) {
-			//if the mouse is over a button then click on the buttons
-				this.buttonList.click();
+			if(this.buttonClick) {
+				//if a button is clicked
+				this.buttonList.click(this.buttonClick-1);
+				this.buttonClick = 0;
 			} else {
-			//else click on the boxes
+				//else click on the boxes
 				this.base.deselectAll();
-				this.base.click(this.click.x, this.click.y);
+				this.base.click(this.click.x, this.click.y);				
 			}
-		}
-		if(this.rClick) {
-			if(this.buttonList.isHover()) {
-			//if the mouse is over a button then click on the buttons
-				this.buttonList.rClick();
-			}	
 		}
 	//} catch(ex) {
 	//	console.log("error: " + ex);
@@ -1851,7 +1701,6 @@ Engine.prototype.update = function() {
 	//}
 
 	if(this.mouse) {
-		this.buttonList.checkHover(this.mouse.x, this.mouse.y-this.scrollAmount);
 		this.base.checkHover(this.mouse.x, this.mouse.y);
 	}
 }
@@ -1863,10 +1712,6 @@ Engine.prototype.draw = function() {
 	this.base.draw(this.ctx);
 
 	this.ctx.restore();
-
-	this.ctxMenu.clearRect(0, 0, this.surfaceWidth, menuCanvas.height);
-	this.buttonList.draw(this.ctxMenu);
-	this.ctxMenu.restore();
 }
 
 Engine.prototype.loop = function() {
@@ -1907,21 +1752,8 @@ var app = new Engine(canvas);
 
 var ASSET_MANAGER = new AssetManager();
 
-for(var i = 0; i < app.numOfButtons; i++){
-	ASSET_MANAGER.queueDownload('img/button'+i+'.png');
-}
-for(var i = 0; i < 6; i++){
-	ASSET_MANAGER.queueDownload('img/image'+i+'.png');
-}
-ASSET_MANAGER.queueDownload('img/caseAdd.png');
-ASSET_MANAGER.queueDownload('img/caseAddHover.png');
-ASSET_MANAGER.queueDownload('img/caseRemove.png');
-ASSET_MANAGER.queueDownload('img/caseRemoveHover.png');
 
-ASSET_MANAGER.downloadAll(function() {
-    app.init();
-    app.start();
-});
+
 
 $(document).ready( function() {
 	$("#canvasContainer").rightClick( function(e) {
@@ -1930,6 +1762,40 @@ $(document).ready( function() {
 		app.rightClick(x, y);
 		console.log(x + ", " + y);
     });
+
+
+	ASSET_MANAGER.queueDownload('img/caseAdd.png');
+	ASSET_MANAGER.queueDownload('img/caseAddHover.png');
+	ASSET_MANAGER.queueDownload('img/caseRemove.png');
+	ASSET_MANAGER.queueDownload('img/caseRemoveHover.png');
+
+
+	ASSET_MANAGER.downloadAll(function() {
+	    app.init();
+	    app.start();
+	});
+
+	var style = document.createElement('style');
+    document.getElementsByTagName('head')[0].appendChild(style);
+    var s = document.styleSheets[document.styleSheets.length - 1];
+
+	for(var i = 1; i <= 10; i++) {
+		var CSS = new Array(
+			"background-image: url('img/button"+(i-1)+".png'), -webkit-gradient(linear, left top, left bottom, from(#F9F1CA), color-stop(0.30, #FFCD46), to(#FEF7C3));",
+			"background-image: url('img/button"+(i-1)+".png'), -webkit-linear-gradient(top, #F9F1CA, #F9F1CA 35%, #FFCD46 40%,#FEF7C3);",
+			"background-image: url('img/button"+(i-1)+".png'), -moz-linear-gradient(top, #F9F1CA, #F9F1CA 35%, #FFCD46 40%,#FEF7C3);",
+			"background-image: url('img/button"+(i-1)+".png'), -ms-linear-gradient(top, #F9F1CA, #F9F1CA 35%, #FFCD46 40%,#FEF7C3);",
+			"background-image: url('img/button"+(i-1)+".png'), -o-linear-gradient(top, #F9F1CA, #F9F1CA 35%, #FFCD46 40%,#FEF7C3);"
+		);
+		changeRule("#button"+i+":hover",CSS);
+
+		var CSS = new Array(
+			"background-image:url('img/button"+(i-1)+".png');"
+		);
+		changeRule("#button"+i,CSS);
+	}
+
+
 });
 
 function inputFieldKey(e, element) {
@@ -1969,4 +1835,26 @@ function getCookie(c_name) {
 			return unescape(y);
 		}
 	}
+}
+
+function changeRule(selector, ruleArray) {
+	var sheet = document.styleSheets[1];
+	if (sheet.insertRule) { // firefox
+		var rule = '';
+		for(i=0; i<ruleArray.length; i++) {
+			rule += ruleArray[i];
+			rule += ' ';
+		}
+		sheet.insertRule(""+selector+" { "+rule+" }", sheet.cssRules.length);
+	}
+	else if(sheet.addRule) { // ie
+		var rule = '';
+		for(i=0; i<ruleArray.length; i++) {
+			sheet.addRule(selector, ruleArray[i]);
+		}
+	}
+}
+
+function buttonClick(event) {
+	app.buttonClick = (event.id.substr(6));
 }

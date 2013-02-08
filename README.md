@@ -1,4 +1,5 @@
 nsdiagram
 =========
 
-Browser-based flowchart tool
+Browser-based application for making Nassi-Schneiderman flow charts.
+
