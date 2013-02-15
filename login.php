@@ -2,18 +2,20 @@
 
 /* Execute the query. */    
 
-$user_name = $_POST['user_name'];
-$user_pass = $_POST['user_pass'];
+$data = $_POST['data'];
+
+$user_name = $data['user_name'];
+$user_pass = $data['user_pass'];
 if($user_name) {
 
 	$server = "BCISERVER01\\EXPRESS";
 	$options = array(  "UID" => "diagramer",  "PWD" => "Face1010",  "Database" => "NSDiagram");
 	$conn = sqlsrv_connect($server, $options);
 	if ($conn === false) die("<pre>".print_r(sqlsrv_errors(), true));
-	echo "<p>Successfully connected!</p>";
+	#echo "<p>Successfully connected!</p>";
 
 	$sql = "SELECT * FROM dbo.users WHERE name='$user_name'";
-	echo "<p>QUERY: ".$sql."</p>";
+	#echo "<p>QUERY: ".$sql."</p>";
 	$query = sqlsrv_query($conn, $sql);
 	if ($query === false) {
 		exit("<pre>".print_r(sqlsrv_errors(), true));
