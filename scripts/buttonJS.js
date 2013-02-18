@@ -1781,16 +1781,16 @@ $(document).ready( function() {
 
 	for(var i = 1; i <= 10; i++) {
 		var CSS = new Array(
-			"background-image: url('img/button"+(i-1)+".png'), -webkit-gradient(linear, left top, left bottom, from(#F9F1CA), color-stop(0.30, #FFCD46), to(#FEF7C3));",
-			"background-image: url('img/button"+(i-1)+".png'), -webkit-linear-gradient(top, #F9F1CA, #F9F1CA 35%, #FFCD46 40%,#FEF7C3);",
-			"background-image: url('img/button"+(i-1)+".png'), -moz-linear-gradient(top, #F9F1CA, #F9F1CA 35%, #FFCD46 40%,#FEF7C3);",
-			"background-image: url('img/button"+(i-1)+".png'), -ms-linear-gradient(top, #F9F1CA, #F9F1CA 35%, #FFCD46 40%,#FEF7C3);",
-			"background-image: url('img/button"+(i-1)+".png'), -o-linear-gradient(top, #F9F1CA, #F9F1CA 35%, #FFCD46 40%,#FEF7C3);"
+			"background-image: url('../img/button"+(i-1)+".png'), -webkit-gradient(linear, left top, left bottom, from(#F9F1CA), color-stop(0.30, #FFCD46), to(#FEF7C3));",
+			"background-image: url('../img/button"+(i-1)+".png'), -webkit-linear-gradient(top, #F9F1CA, #F9F1CA 35%, #FFCD46 40%,#FEF7C3);",
+			"background-image: url('../img/button"+(i-1)+".png'), -moz-linear-gradient(top, #F9F1CA, #F9F1CA 35%, #FFCD46 40%,#FEF7C3);",
+			"background-image: url('../img/button"+(i-1)+".png'), -ms-linear-gradient(top, #F9F1CA, #F9F1CA 35%, #FFCD46 40%,#FEF7C3);",
+			"background-image: url('../img/button"+(i-1)+".png'), -o-linear-gradient(top, #F9F1CA, #F9F1CA 35%, #FFCD46 40%,#FEF7C3);"
 		);
 		changeRule("#button"+i+":hover",CSS);
 
 		var CSS = new Array(
-			"background-image:url('img/button"+(i-1)+".png');"
+			"background-image:url('../img/button"+(i-1)+".png');"
 		);
 		changeRule("#button"+i,CSS);
 	}

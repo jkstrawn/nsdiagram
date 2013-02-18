@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Nassi Shneiderman Diagram Maker - Patch Notes</title>
+		<link rel="stylesheet" type="text/css" href="css/styles.css" />
+	</head>
+
+	<body>
+		
+		<div id="main" class="center" style="z-index:1;">
+
+			<?php include('header.php') ?>
+
+			<div id="notes" class="rounded">
+				<h1> Recent Changes </h1>
+
+				<br></br>
+				<div class="noteTitle">
+					<div class="noteTitlePatch"> Patch 0.15 </div>
+					<div class="noteTitleDate"> Feb 7, 2013 </div>
+				</div>
+				<div class="noteText">
+					<div class="line-separator"></div>
+					<ul>
+						<li> Updated color scheme</li>
+						<li> Cleaned up some client-side CSS</li>
+					</ul>
+				</div>
+
+				<br></br>
+				<div class="noteTitle">
+					<div class="noteTitlePatch"> Patch 0.14 </div>
+					<div class="noteTitleDate"> Nov 7, 2012 </div>
+				</div>
+				<div class="noteText">
+					<div class="line-separator"></div>
+					<ul>
+						<li> Add-Before feature - Right click a box button while selecting a box to place it in front of the selected box </li>
+						<li> Editing text now requires only 1 left-click </li>
+						<li> Menu bar stays at the top of the screen if scrolling beneath its default location </li>
+						<li> Fixed bug with textboxes resizing incorrectly </li>
+					</ul>
+				</div>
+
+				<br></br>
+				<div class="noteTitle">
+					<div class="noteTitlePatch"> Patch 0.13 </div>
+					<div class="noteTitleDate"> Oct 29, 2012 </div>
+				</div>
+				<div class="noteText">
+					<div class="line-separator"></div>
+					<ul>
+						<li> Undo feature added</li>
+						<li> The main container expands past the default size so charts can be longer </li>
+						<li> Containers will no longer shrink to 0 if you delete all boxes inside </li>
+						<li> Containers starting size set to default block height </li>
+					</ul>
+				</div>
+
+				<br></br>
+				<div class="noteTitle">
+					<div class="noteTitlePatch"> Patch 0.12 </div>
+					<div class="noteTitleDate"> Oct 28, 2012 </div>
+				</div>
+				<div class="noteText">
+					<div class="line-separator"></div>
+					<ul>
+						<li> Save and Load implemented
+							<ul>
+								<li> Saves using cookies, therefore can only save a chart so large. </li>
+								<li> Cookies vary in size, but an estimate of how much room is used is output below the chart.</li>
+								<li> Charts are saved locally, so they dont transfer between computers </li>
+							</ul>
+						</li>
+						<li> Exported chart images are now added below the application, instead of in a new window, in order to avoid pop-up issues. </li>
+					</ul>
+				</div>
+
+				<br></br>
+				<div class="noteTitle">
+					<div class="noteTitlePatch"> Patch 0.11 </div>
+					<div class="noteTitleDate"> Oct 27, 2012 </div>
+				</div>
+				<div class="noteText">
+					<div class="line-separator"></div>
+					<ul>
+						<li> Added expanding blocks 
+							<ul> <li> Typing beyond the default textbox will cause it to add an extra line automatically </li> </ul>
+						</li>
+						<li> Save feature working in beta - release soon </li>
+					</ul>
+				</div>
+			<div>
+		</div>
+	</body>
+</html>

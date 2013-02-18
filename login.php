@@ -14,7 +14,7 @@ if($user_name) {
 	if ($conn === false) die("<pre>".print_r(sqlsrv_errors(), true));
 	#echo "<p>Successfully connected!</p>";
 
-	$sql = "SELECT * FROM dbo.users WHERE name='$user_name'";
+	$sql = "SELECT * FROM dbo.users WHERE name='$user_name' or email='$user_name'";
 	#echo "<p>QUERY: ".$sql."</p>";
 	$query = sqlsrv_query($conn, $sql);
 	if ($query === false) {
