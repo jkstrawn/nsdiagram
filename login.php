@@ -1,22 +1,18 @@
 <?php
+session_start();
+$username = $_POST['data']['user_name'];
+$userpass = $_POST['data']['user_pass'];
 
-/* Execute the query. */    
-
-$data = $_POST['data'];
-
-$user_name = $data['user_name'];
-$user_pass = $data['user_pass'];
-if($user_name) {
+if(isset($username)) {
 
 	$server = "BCISERVER01\\EXPRESS";
 	$options = array(  "UID" => "diagramer",  "PWD" => "Face1010",  "Database" => "NSDiagram");
 	$conn = sqlsrv_connect($server, $options);
 	if ($conn === false) die("<pre>".print_r(sqlsrv_errors(), true));
-	#echo "<p>Successfully connected!</p>";
 
-	$sql = "SELECT * FROM dbo.users WHERE name='$user_name' or email='$user_name'";
-	#echo "<p>QUERY: ".$sql."</p>";
-	$query = sqlsrv_query($conn, $sql);
+	$params = array($username, $userpass);
+	$sql = "SELECT * FROM dbo.users WHERE name = ? or email = ?"; 
+	$query = sqlsrv_query($conn, $sql, $params); 
 	if ($query === false) {
 		exit("<pre>".print_r(sqlsrv_errors(), true));
 	}
@@ -24,7 +20,11 @@ if($user_name) {
 	$row = sqlsrv_fetch_array($query);
 	if($row) {
 		$password = $row[pass];
-		if($password == $user_pass) {
+		if($password == sha1($userpass)) {
+		//successful login
+			$_SESSION['loggedin'] = "YES";
+			$_SESSION['name'] = $username;
+			$_SESSION['cdb']="1";
 			echo json_encode($row);
 		} else {
 			echo json_encode(2);

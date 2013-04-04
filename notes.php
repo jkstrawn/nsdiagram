@@ -1,14 +1,3 @@
-<!DOCTYPE HTML>
-<html>
-	<head>
-		<title>Nassi Shneiderman Diagram Maker - Patch Notes</title>
-		<link rel="stylesheet" type="text/css" href="css/styles.css" />
-	</head>
-
-	<body>
-		
-		<div id="main" class="center" style="z-index:1;">
-
 			<?php include('header.php') ?>
 
 			<div id="notes" class="rounded">

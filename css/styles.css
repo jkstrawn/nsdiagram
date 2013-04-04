@@ -45,6 +45,14 @@ body {
 	background: -webkit-gradient(linear, left top, left bottom, from(#FFD665), to(#FFFFFF));
 	background: -moz-linear-gradient(top,  #FFD665,  #FFFFFF); /* for firefox 3.6+ */
 
+
+
+background: -ms-linear-gradient(top,  #FFD665 0%,#FFF2CF 50%,#FFFFFF 85%); /* IE10+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FFD665', endColorstr='#FFFFFF',GradientType=0 ); /* IE6-9 */
+
+
+
+
 	width: 250px;
 	float: left;
 	margin: 16px 0px;
@@ -95,9 +103,79 @@ body {
 	border-radius: 20px 20px 10px 10px;
 }
 
+	#loginText {
+		float: right;
+		padding-top: 10px;
+		margin-right: 20px;
+		font: 1em Arial, sans-serif;
+	}
+
+	div.dropdown {
+		color: #555;
+		margin: 3px -22px 0 0;
+		width: 143px;
+		position: relative;
+		height: 17px;
+		text-align:left;
+	}
+	div.submenu
+	{
+		background: #fff;
+		position: absolute;
+		top: -12px;
+		left: -20px;
+		z-index: 100;
+		width: 135px;
+		display: none;
+		margin-left: 10px;
+		padding: 40px 0 5px;
+		border-radius: 6px;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+	}
+
+	.dropdown  li a {
+		color: #555555;
+		display: block;
+		font-family: arial;
+		font-weight: bold;
+		padding: 6px 15px;
+		cursor: pointer;
+		text-decoration:none;
+	}
+
+	.dropdown li a:hover{
+	    background:#155FB0;
+	    color: #FFFFFF;
+	    text-decoration: none;
+	    
+	}
+	a.account {
+		line-height: 16px;
+		color: #555;
+		position: absolute;
+		z-index: 110;
+		display: block;
+		padding: 11px 0 0 20px;
+		height: 28px;
+		width: 121px;
+		margin: -11px 0 0 -10px;
+		text-decoration: none;
+		background: url(icons/arrow.png) 116px 17px no-repeat;
+		cursor:pointer;
+	}
+	.root
+	{
+		list-style:none;
+		margin:0px;
+		padding:0px;
+		font-size: 11px;
+		padding: 11px 0 0 0px;
+		border-top:1px solid #dedede;	
+	}
+
 .center {
 	margin:auto;
-	width: 800px;
+	width: 690px;
 	background: none;
 }
 
@@ -135,7 +213,7 @@ input {
 	background: -webkit-gradient(linear, left top, left bottom, from(#c1c1c1), to(#e0e0e0)); /* for webkit browsers */
 	background: -moz-linear-gradient(top,  #c1c1c1,  #e0e0e0); /* for firefox 3.6+ */
 
-	width:700px;
+	width:590px;
 	padding: 50px;
 	-moz-border-radius: 10px;
 	border-radius: 10px;

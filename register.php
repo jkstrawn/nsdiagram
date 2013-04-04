@@ -1,12 +1,10 @@
 <?php
+session_start();
 
-/* Execute the query. */    
-
-$data = $_POST['data'];
-
-$user_name = $data['user_name'];
-$user_pass = $data['user_pass'];
-$user_email = $data['user_email'];
+$user_name = $_POST['data']['user_name'];
+$user_pass = $_POST['data']['user_pass'];
+$user_email = $_POST['data']['user_email'];
+$today = date("Y-m-d H:i:s");
 
 if($user_name) {
 
@@ -16,8 +14,9 @@ if($user_name) {
 	if ($conn === false) die("<pre>".print_r(sqlsrv_errors(), true));
 
 	#Check if the name is in use
-	$sql = "SELECT * FROM dbo.users WHERE name='$user_name'";
-	$query = sqlsrv_query($conn, $sql);
+	$params = array($user_name);
+	$sql = "SELECT * FROM dbo.users WHERE name = ?"; 
+	$query = sqlsrv_query($conn, $sql, $params); 
 	if ($query === false) {
 		exit("<pre>".print_r(sqlsrv_errors(), true));
 	}
@@ -29,12 +28,17 @@ if($user_name) {
 		echo json_encode(2);
 	} else {
 		if($user_pass) {
+			$user_pass = sha1($user_pass);
 			#The name is available, so create a new user
-			$sql = "INSERT into users(name, pass, email) values('$user_name','$user_pass','$user_email')";
-			$query = sqlsrv_query($conn, $sql);
+			$params = array($user_name, $user_pass, $user_email, $today);
+			$sql = "INSERT into users(name, pass, email, date) values(?, ?, ?, ?)"; 
+			$query = sqlsrv_query($conn, $sql, $params);
 			if ($query === false) {
 				exit("<pre>".print_r(sqlsrv_errors(), true));
 			} else {
+				//successful register			
+				$_SESSION['loggedin'] = "YES";
+				$_SESSION['name'] = $user_name;
 				echo json_encode(3);
 			}
 			sqlsrv_free_stmt($query);			

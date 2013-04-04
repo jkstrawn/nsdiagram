@@ -1,35 +1,3 @@
-<!DOCTYPE HTML>
-<html>
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<script type="text/javascript">
-		//google analytics
-		var _gaq = _gaq || [];
-		_gaq.push(['_setAccount', 'UA-36136584-1']);
-		_gaq.push(['_trackPageview']);
-
-		(function() {
-			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-		})();
-
-	</script>
-
-
-	<head>
-		<title>Nassi Shneiderman Diagram Maker</title>
-		<meta name="description" content="Create, save, and load Nassi-Shneiderman charts all in the browser.">
-		<meta name="keywords" content="Nassi, Shneiderman, diagram, chart, maker, creator, flowchart, HTML, editor, ns, free">
-		<meta name="author" content="Jeremy Strawn">
-		<meta charset="UTF-8">
-		<script src="scripts/jQuery/jquery.js"></script>
-<script src="scripts/jQuery/jquery.rightClick.js"></script>
-	</head>
-
-	<body>
-
-		<div id="main" class="center" style="z-index:1;">
-
 			<?php include('header.php')   ?>
 			<script src="scripts/buttonJS.js"></script>
 
